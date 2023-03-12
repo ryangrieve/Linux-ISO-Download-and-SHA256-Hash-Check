@@ -19,7 +19,7 @@ with open("distros.json", "r") as f:
 
 # Downloads the .iso and hash file
 def download_file(url, filename):
-    print("\n" + ("-" * 80) + f"\nDownloading {filename}...")
+    print("\n" + ("-" * 25) + f"\nDownloading {filename}...")
     cmd = [
         "wget",
         url,
@@ -46,7 +46,7 @@ def check_hash(iso_filename, hash_filename):
             if iso_hash in line:
                 matching_line = line
                 break
-        print("-" * 80)
+        print("-" * 25)
         if matching_line:
             print(
                 f"\nSHA256 hash match confirmed!\n\n"
@@ -73,20 +73,12 @@ def download_and_check(distro):
 def main_menu():
     while True:
         try:
-            distro = int(
-                input(
-                    """
-Distribution Options:
-1) Debian - "debian-11.6.0-amd64-netinst.iso"
-2) Xubuntu - "xubuntu-22.04.2-desktop-amd64.iso"
-3) Fedora - "Fedora-Everything-netinst-x86_64-37-1.7.iso"
-4) Rocky Linux - "Rocky-9.1-x86_64-boot.iso"
-5) openSUSE Tumbleweed - "openSUSE-Tumbleweed-NET-x86_64-Current.iso"
-6) Quit
-Select an option (1-6): """
-                )
-            )
-            if distro == 6:
+            print("\nDistribution Options:")
+            for option, urls in distros.items():
+                print(f"{option}) {urls['iso'].split('/')[-1]}")
+            print(f"{len(distros)+1}) Quit")
+            distro = int(input(f"Select an option (1-{len(distros)+1}): "))
+            if distro == len(distros) + 1:
                 quit("\nClosing...\n")
             download_and_check(distro)
         except Exception:
