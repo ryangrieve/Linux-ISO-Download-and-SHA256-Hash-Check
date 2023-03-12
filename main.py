@@ -4,13 +4,12 @@ import subprocess
 print(
     """
 Linux ISO Download and SHA256 Hash Check
-----------------------------------------------------------------------------
+
 This Python script downloads Linux ISO files and verifies their SHA256 hash
 values. Select a distribution and the script downloads the distribution's
 ISO and SHA256 hash files. The script will calculate the hash value of the
 downloaded ISO and compare it with the hash value stored in the downloaded
-hash file. After the comparison, the script states whether the hashes match.
-----------------------------------------------------------------------------"""
+hash file. After the comparison, the script states whether the hashes match."""
 )
 
 with open("distros.json", "r") as f:
@@ -19,7 +18,7 @@ with open("distros.json", "r") as f:
 
 # Downloads the .iso and hash file
 def download_file(url, filename):
-    print("\n" + ("-" * 25) + f"\nDownloading {filename}...")
+    print(f"\nDownloading {filename}...")
     cmd = [
         "wget",
         url,
@@ -46,7 +45,6 @@ def check_hash(iso_filename, hash_filename):
             if iso_hash in line:
                 matching_line = line
                 break
-        print("-" * 25)
         if matching_line:
             print(
                 f"\nSHA256 hash match confirmed!\n\n"
@@ -77,7 +75,7 @@ def main_menu():
             for option, urls in distros.items():
                 print(f"{option}) {urls['iso'].split('/')[-1]}")
             print(f"{len(distros)+1}) Quit")
-            distro = int(input(f"Select an option (1-{len(distros)+1}): "))
+            distro = int(input(f"\nSelect an option (1-{len(distros)+1}): "))
             if distro == len(distros) + 1:
                 quit("\nClosing...\n")
             download_and_check(distro)
